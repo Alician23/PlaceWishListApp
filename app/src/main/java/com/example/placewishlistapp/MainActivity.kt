@@ -40,10 +40,10 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
         addNewPlaceButton = findViewById(R.id.add_new_place_button)
         etReason = findViewById(reason_edit_text)
 
-        val places = placesListModel.getPlaces()
+    //    val places = placesListModel.getPlaces()
 
         // Configure the RecyclerView
-        placesRecyclerAdapter = PlaceRecyclerAdapter(places, this)
+        placesRecyclerAdapter = PlaceRecyclerAdapter(listOf(), this)
         placeListRecyclerView.layoutManager = LinearLayoutManager(this)
         placeListRecyclerView.adapter = placesRecyclerAdapter
 
@@ -52,6 +52,12 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
 
         addNewPlaceButton.setOnClickListener {
             addNewPlace()
+        }
+
+        placesViewModel.allPlaces.observe(this) { places ->
+            placesRecyclerAdapter.places = places
+            placesRecyclerAdapter.notifyDataSetChanged()
+
         }
     }
 
@@ -64,13 +70,13 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
             val place = Place(name, reason)
             val positionAdded = placesListModel.addNewPlace(place)
 
-            if (positionAdded == -1) {
-                Toast.makeText(this, "You already added that place", Toast.LENGTH_SHORT).show()
-            } else {
-                placesRecyclerAdapter.notifyItemInserted(positionAdded)
+//            if (positionAdded == -1) {
+  //             Toast.makeText(this, "You already added that place", Toast.LENGTH_SHORT).show()
+//            } else {
+ //               placesRecyclerAdapter.notifyItemInserted(positionAdded)
                 clearForm()
                 hideKeyboard()
-            }
+ //           }
         }
     }
 
@@ -113,7 +119,7 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
 
     override fun onListItemDeleted(position: Int) {
 
-        val place = placesListModel.deletePlace(position)
+ //       val place = placesListModel.deletePlace(position)
         placesRecyclerAdapter.notifyItemRemoved(position)
 
 //        Snackbar.make(

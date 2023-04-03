@@ -2,7 +2,10 @@ package com.example.placewishlistapp
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 const val TAG = "PLACES_VIEW_FOR_MODEL"
 
@@ -12,34 +15,31 @@ class PlacesViewModel: ViewModel() {
 //        Place("Patagonia, Chile","To see cows", starred = true),
 //        Place("Auckland, NZ", "dddd", starred = true))
 
+    private val placeRepository = PlaceRepository()
+
+    val allPlaces = MutableLiveData<List>Place>>(listOf<Place>())
+
+    init {
+        getPlaces()
+
+    }
+
     fun getPlaces() {
+        viewModelScope.launch {
+            val places = placeRepository.getAllPlace()
+            allPlaces.postValue(places)
+        }
       }
 
     fun addNewPlace(place: Place){
+        viewModelScope.lauch {
+            val newPlace = placeRepository.addPlace(place)
+            getPlaces()
+        }
         //todo
     }
 
-    fun addNewReason(place: Place) {
-        if (placeNames.any { placeReason -> placeReason.reason.uppercase() == place.reason.uppercase() }) {
-            return -1
-        }
-        return  if (position == null) {
-            placeNames.add(place)
-            return placeNames.lastIndex
-        } else {
-            placeNames.add(position, place)
-            return position
-        }
-
-    }
-
-//    fun movePlace(from: Int, to: Int) {
-//        // Remove place and save value
-//        val place = placeNames.removeAt(from)
-//        // Insert into list at new position
-//        placeNames.add(to, place)
-//        Log.d(TAG, place.toString())
-//    }
+//
 
     fun deletePlace(position: Int) {
         //todo
