@@ -11,12 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 interface  OnDataChangedListener {
     fun onListItemMoved(from:Int, to:Int)
     fun onListItemDeleted(position:Int)
-
 }
 
 class OnListItemSwipeListener(private val onDataChangedListener: OnDataChangedListener):
     ItemTouchHelper.SimpleCallback(
-        ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+        0, // no reordering
         ItemTouchHelper.RIGHT) {
 
     private  var deleteBackground: ColorDrawable = ColorDrawable(Color.GRAY)
@@ -29,9 +28,9 @@ class OnListItemSwipeListener(private val onDataChangedListener: OnDataChangedLi
         // Move up and down to rearrange
         // For handling up/down movements
 
-        val fromPosition = viewHolder.adapterPosition
-        val toPosition = target.adapterPosition
-        onDataChangedListener.onListItemMoved(fromPosition,toPosition)
+//        val fromPosition = viewHolder.adapterPosition
+//        val toPosition = target.adapterPosition
+//        onDataChangedListener.onListItemMoved(fromPosition,toPosition)
         return true // return true if item is moved, false otherwise
     }
 

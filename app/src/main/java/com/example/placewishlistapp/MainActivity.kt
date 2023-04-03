@@ -87,8 +87,13 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
         }
     }
 
-    override fun onListItemClicked(place: Place) {
+    override fun onMapRequestButtonClicked(place: Place) {
         showMapForPLace(place)
+    }
+
+    override fun onStarredStatusChanged(place: Place, isStarred: Boolean) {
+      place.starred = isStarred
+      placeViewModel.updatePlace(place)
     }
 
     private fun showMapForPLace(place: Place) {
@@ -101,28 +106,28 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
         startActivity(mapIntent)
     }
 
-    override fun onListItemMoved(from: Int, to: Int) {
-        placesListModel.movePlace(from, to)
-        placesRecyclerAdapter.notifyItemMoved(from, to)
-    }
+//    override fun onListItemMoved(from: Int, to: Int) {
+//        placesListModel.movePlace(from, to)
+//        placesRecyclerAdapter.notifyItemMoved(from, to)
+//    }
 
     override fun onListItemDeleted(position: Int) {
 
         val place = placesListModel.deletePlace(position)
         placesRecyclerAdapter.notifyItemRemoved(position)
 
-        Snackbar.make(
-            findViewById(R.id.container),
-            getString(R.string.place_deleted, place.name),
-            Snackbar.LENGTH_LONG
-        )
-            .setActionTextColor(resources.getColor(R.color.red))
-            .setBackgroundTint(resources.getColor(R.color.black))
-            .setAction(getString(R.string.undo_delete)) {
-                placesListModel.addNewPlace(place, position)
-                placesRecyclerAdapter.notifyItemInserted(position)
-            }
-            .show()
+//        Snackbar.make(
+//            findViewById(R.id.container),
+//            getString(R.string.place_deleted, place.name),
+//            Snackbar.LENGTH_LONG
+//        )
+//            .setActionTextColor(resources.getColor(R.color.red))
+//            .setBackgroundTint(resources.getColor(R.color.black))
+//            .setAction(getString(R.string.undo_delete)) {
+//                placesListModel.addNewPlace(place, position)
+//                placesRecyclerAdapter.notifyItemInserted(position)
+//            }
+//            .show()
     }
 }
 

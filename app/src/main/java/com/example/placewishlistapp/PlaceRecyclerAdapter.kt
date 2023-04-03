@@ -3,12 +3,16 @@ package com.example.placewishlistapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 interface  OnListItemClickedListener {
-    fun onListItemClicked(place: Place)
+    fun onMapRequestButtonClicked(place: Place)
+    fun onStarredStatusChanged(place: Place, isStarred: Boolean)
+
+
 }
 
 class PlaceRecyclerAdapter(private val places: List<Place>,
@@ -24,13 +28,18 @@ class PlaceRecyclerAdapter(private val places: List<Place>,
             val etReason: TextView = view.findViewById(R.id.reason_for_place)
             etReason.text = place.reason
 
-            val dateCreatedOnText = view.findViewById<TextView>(R.id.date_place_added)
-            dateCreatedOnText.text =
-                view.context.getString(R.string.created_on, place.formattedDate())
             val mapIcon = view.findViewById<ImageView>(R.id.map_icon)
             mapIcon.setOnClickListener {
-                onListItemClickedListener.onListItemClicked(place)
+                onListItemClickedListener.onMapRequestButtonClicked(place)
             }
+
+            val starCheck = view.findViewById<CheckBox>(R.id.star_check)
+            starCheck.setOnClickListener(null)
+            starCheck.isChecked = place.starred
+            starCheck.setOnClickListener {
+              onListItemClickedListener.onStarredStatusChanged(place, starCheck.isChecked)
+            }
+
         }
     }
     // called by the recycler view to create as many view holders that are needed to
