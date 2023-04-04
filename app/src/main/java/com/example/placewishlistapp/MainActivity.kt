@@ -119,8 +119,9 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
 
     override fun onListItemDeleted(position: Int) {
 
- //       val place = placesListModel.deletePlace(position)
-        placesRecyclerAdapter.notifyItemRemoved(position)
+        val place = placesRecyclerAdapter.places[position]
+        placesListModel.deletePlace(place)
+ //       placesRecyclerAdapter.notifyItemRemoved(position)
 
 //        Snackbar.make(
 //            findViewById(R.id.container),

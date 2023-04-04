@@ -32,21 +32,25 @@ class PlacesViewModel: ViewModel() {
       }
 
     fun addNewPlace(place: Place){
-        viewModelScope.lauch {
+        viewModelScope.launch {
             val newPlace = placeRepository.addPlace(place)
-            getPlaces()
+            getPlaces() // update UI
         }
-        //todo
-    }
-
-//
-
-    fun deletePlace(position: Int) {
-        //todo
     }
 
     fun updatePlace(place: Place) {
-        // todo
+        viewModelScope.launch {
+            placeRepository.updatePlace(place)
+            getPlaces() // update UI
+        }
     }
+
+    fun deletePlace(place: Place) {
+        viewModelScope.launch {
+            placeRepository.deletePlace(place)
+            getPlaces() // update UI
+        }
+    }
+
 }
 

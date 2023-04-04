@@ -1,9 +1,7 @@
 package com.example.placewishlistapp
 
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface PlaceService {
 
@@ -13,8 +11,16 @@ interface PlaceService {
     @POST("places/")
     suspend fun addPlace(@Body place: Place): Response<Place>
 
-    // to update place
+    // update place - ID of place
+    // data about the new place - send in the body of the request
 
-    // todo delete place
+
+    @PATCH( "places/{id}/")
+    suspend fun updatePlace(@Body place: Place, @Path("id") id: Int): Response<Place>
+
+
+    // delete place
+    @DELETE( "places/{id}/")
+    suspend fun deletePlace(@Path("id") id: Int) : Response<String>
 
 }

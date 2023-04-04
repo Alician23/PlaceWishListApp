@@ -27,11 +27,12 @@ class PlaceRepository {
         try {
             val response = placeService.getAllPlaces()
 
-            if ( response.isSuccessful) { // connected, got data in return
+            if (response.isSuccessful) { // connected, got data in return
                 val places = response.body() ?: listOf()
+                Log.d(TAG, "List of places {$places}")
                 return places
-            }
-            else { // connected to server but server sent an error message
+
+            } else { // connected to server but server sent an error message
                 Log.e(TAG, "Error fetching places from API server ${response.errorBody()} ")
                 return listOf() // return empty list
             }
@@ -42,20 +43,41 @@ class PlaceRepository {
         }
     }
 
-    suspend fun  addPlace( place: Place): Place ? {
+    suspend fun addPlace(place: Place): Place? {
         try {
             val response = placeService.addPlace(place)
             if (response.isSuccessful) {
-                Log.d(TAG, "Created new place ${place} ")
-                return  response.body()
-            }else {
+                Log.d(TAG, "Created new place for ${place} ")
+                Log.d(TAG, "Server created new place  ${response.body()} ")
+
+                return response.body()
+            } else {
                 Log.e(TAG, "Error creating new place ${response.errorBody()} ")
-                return  null
+                return null
             }
 
-        }catch (ex: Exception) { // can't connect to server - network error
+        } catch (ex: Exception) { // can't connect to server - network error
             Log.e(TAG, "Error connecting to API server", ex)
             return null
         }
     }
+
+    suspend fun updatePlace(place: Place) {
+        if (place.id == null) {
+            Log.e(TAG, "Error - trying to update place with no ID")
+
+        } else {
+            placeService.updatePlace(place, place.id)
+        }
+
+    }
+
+    suspend fun deletePlace(place: Place) {
+        if (place.id == null) {
+            Log.e(TAG, "Error - trying to delete place with no ID")
+        } else {
+            placeService.deletePlace(place.id)
+        }
+    }
+
 }
