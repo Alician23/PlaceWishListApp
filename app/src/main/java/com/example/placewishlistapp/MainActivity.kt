@@ -7,6 +7,7 @@ import android.graphics.Color.red
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.placewishlistapp.R.id.container
 import com.example.placewishlistapp.R.id.reason_edit_text
 import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +26,7 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
     private lateinit var addNewPlaceButton: Button
     private lateinit var placeListRecyclerView: RecyclerView
     private lateinit var etReason: EditText
+    private lateinit var container: View
 
     private lateinit var placesRecyclerAdapter: PlaceRecyclerAdapter
 
@@ -39,6 +42,7 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
         newPlaceEditText = findViewById(R.id.new_place_name)
         addNewPlaceButton = findViewById(R.id.add_new_place_button)
         etReason = findViewById(reason_edit_text)
+        container = findViewById(R.id.container)
 
     //    val places = placesListModel.getPlaces()
 
@@ -57,7 +61,12 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
         placesViewModel.allPlaces.observe(this) { places ->
             placesRecyclerAdapter.places = places
             placesRecyclerAdapter.notifyDataSetChanged()
+        }
 
+        placesViewModel.userMessage.observe(this) { message ->
+           if (message != null) {
+               Snackbar.make(container,message, Snackbar.LENGTH_LONG).show()
+           }
         }
     }
 
