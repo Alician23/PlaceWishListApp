@@ -6,7 +6,7 @@ import retrofit2.http.*
 interface PlaceService {
 
     @GET("places/")
-    suspend fun getAllPlaces(): Response<List>Place>>
+    suspend fun getAllPlaces(): Response<List<Place>>
 
     @POST("places/")
     suspend fun addPlace(@Body place: Place): Response<Place>

@@ -58,12 +58,12 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
             addNewPlace()
         }
 
-        placesViewModel.allPlaces.observe(this) { places ->
+        placesListModel.allPlaces.observe(this) { places ->
             placesRecyclerAdapter.places = places
             placesRecyclerAdapter.notifyDataSetChanged()
         }
 
-        placesViewModel.userMessage.observe(this) { message ->
+        placesListModel.userMessage.observe(this) { message ->
            if (message != null) {
                Snackbar.make(container,message, Snackbar.LENGTH_LONG).show()
            }
@@ -77,12 +77,8 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
             Toast.makeText(this, "Enter a place name and a reason", Toast.LENGTH_SHORT).show()
         } else {
             val place = Place(name, reason)
-            val positionAdded = placesListModel.addNewPlace(place)
+            placesListModel.addNewPlace(place)
 
-//            if (positionAdded == -1) {
-  //             Toast.makeText(this, "You already added that place", Toast.LENGTH_SHORT).show()
-//            } else {
- //               placesRecyclerAdapter.notifyItemInserted(positionAdded)
                 clearForm()
                 hideKeyboard()
  //           }
@@ -108,7 +104,7 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
 
     override fun onStarredStatusChanged(place: Place, isStarred: Boolean) {
       place.starred = isStarred
-      placeViewModel.updatePlace(place)
+      placesListModel.updatePlace(place)
     }
 
     private fun showMapForPLace(place: Place) {
@@ -121,10 +117,10 @@ class MainActivity() : AppCompatActivity(), OnListItemClickedListener, OnDataCha
         startActivity(mapIntent)
     }
 
-//    override fun onListItemMoved(from: Int, to: Int) {
+    override fun onListItemMoved(from: Int, to: Int) {
 //        placesListModel.movePlace(from, to)
 //        placesRecyclerAdapter.notifyItemMoved(from, to)
-//    }
+    }
 
     override fun onListItemDeleted(position: Int) {
 

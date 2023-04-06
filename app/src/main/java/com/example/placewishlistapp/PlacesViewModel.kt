@@ -17,8 +17,8 @@ class PlacesViewModel: ViewModel() {
 
     private val placeRepository = PlaceRepository()
 
-    val allPlaces = MutableLiveData<List>Place>>(listOf<Place>())
-
+    val allPlaces = MutableLiveData<List<Place>>(listOf<Place>())
+    val userMessage = MutableLiveData<String>()
     init {
         getPlaces()
 

@@ -44,7 +44,7 @@ class PlaceRepository {
         }
     }
 
-    suspend fun addPlace(place: Place): Place? {
+    suspend fun addPlace(place: Place): ApiResult<Place> {
         try {
             val response = placeService.addPlace(place)
             if (response.isSuccessful) {
@@ -61,7 +61,7 @@ class PlaceRepository {
         }
     }
 
-    suspend fun updatePlace(place: Place) {
+    suspend fun updatePlace(place: Place) : ApiResult<Place> {
 
         if (place.id == null) {
             Log.e(TAG, "Error - trying to update place with no ID")
