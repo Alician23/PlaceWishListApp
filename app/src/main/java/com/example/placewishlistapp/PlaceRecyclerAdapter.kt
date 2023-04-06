@@ -25,7 +25,7 @@ class PlaceRecyclerAdapter(var places: List<Place>,
             val placeNameText: TextView = view.findViewById(R.id.place_name)
             placeNameText.text = place.name
 
-            val etReason: TextView = view.findViewById(R.id.reason_for_place)
+            val etReason: TextView = view.findViewById(R.id.reason_to_visit)
             etReason.text = place.reason
 
             val mapIcon = view.findViewById<ImageView>(R.id.map_icon)
